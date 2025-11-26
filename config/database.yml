@@ -1,0 +1,35 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: root
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: multi_tenant_shop_development
+
+test:
+  <<: *default
+  database: multi_tenant_shop_test
+
+production:
+  primary: &primary_production
+    <<: *default
+    database: multi_tenant_shop_production
+    username: multi_tenant_shop
+    password: <%= ENV["MULTI_TENANT_SHOP_DATABASE_PASSWORD"] %>
+  cache:
+    <<: *primary_production
+    database: multi_tenant_shop_production_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: multi_tenant_shop_production_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: multi_tenant_shop_production_cable
+    migrations_paths: db/cable_migrate
