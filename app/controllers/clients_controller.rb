@@ -1,5 +1,7 @@
 class ClientsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_client, only: %i[ show edit update destroy ]
+  before_action :ensure_platform_admin!
 
   # GET /clients or /clients.json
   def index
@@ -66,5 +68,13 @@ class ClientsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def client_params
       params.expect(client: [ :name, :subdomain ])
+    end
+
+    def ensure_platform_admin!
+      unless current_user.platform_admin?
+        # If a normal user tries to access this, kick them out
+        sign_out current_user
+        redirect_to new_user_session_path, alert: "Access Denied. Platform Admins only."
+      end
     end
 end

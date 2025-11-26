@@ -4,7 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # 0 = customer (can buy stuff)
-  # 1 = admin (can add products)
-  enum :role, { customer: 0, admin: 1 }
+  # Update roles:
+  # customer: 0 (Buys things)
+  # store_admin: 1 (Manages a specific shop)
+  # platform_admin: 9 (You - Manages the SaaS)
+  enum :role, { customer: 0, store_admin: 1, platform_admin: 9 }
 end
