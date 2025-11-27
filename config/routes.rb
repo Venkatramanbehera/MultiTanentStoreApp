@@ -1,55 +1,32 @@
-# Rails.application.routes.draw do
-#   devise_for :users
-#   resources :clients
-#   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-#   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-#   # Can be used by load balancers and uptime monitors to verify that the app is live.
-#   get "up" => "rails/health#show", as: :rails_health_check
-
-#   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-#   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-#   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-
-#   # Defines the root path route ("/")
-#   # root "posts#index"
-# end
-
 Rails.application.routes.draw do
   # =================================================================
-  # 1. PLATFORM ADMIN SIDE (localhost) - "Normal Devise"
+  # 1. PLATFORM ADMIN SIDE (localhost)
   # =================================================================
   constraints(lambda { |r| r.subdomain.blank? || r.subdomain == "www" }) do
-    # 1. Standard Devise for You
-    # URL: /users/sign_in
-    # Helper: new_user_session_path
-    devise_for :users
+    # Wrap in scope to avoid helper name collisions
+    devise_for :admins, class_name: "User", path: "admin", path_names: { sign_in: "login" }
+
+    # Redirect default path to admin path
+    get "/users/sign_in", to: redirect("/admin/login")
 
     resources :clients
-
-    # Standard root for you
-    root to: "clients#index", as: :platform_root
+    root to: "dashboard#index", as: :platform_root
   end
 
   # =================================================================
-  # 2. TENANT STORE SIDE (subdomains) - "Different URL"
+  # 2. TENANT STORE SIDE (subdomains)
   # =================================================================
   constraints(lambda { |r| r.subdomain.present? && r.subdomain != "www" }) do
-    # 2. Custom Devise for Tenants
-    # We use 'as: :tenant' to avoid name collisions with the admin side.
-    # We use 'path: 'store'' to change the URL.
-
-    # URL: /store/login
-    # Helper: new_tenant_user_session_path
-    devise_for :users,
-               as: :tenant,
-               path: "store",
-               path_names: { sign_in: "login", sign_out: "logout", sign_up: "register" }
+    # --- FIXED SECTION ---
+    # Use 'scope as: :tenant' to prefix helpers (new_tenant_user_session_path)
+    # But DO NOT pass 'as: :tenant' to devise_for, so it stays as :user scope
+    devise_for :users, path: "store", path_names: { sign_in: "login" }
 
     get "dashboard", to: "dashboard#index", as: :tenant_dashboard
-    resources :products
-    resources :orders
 
-    root to: "products#index"
+    # Catch the default redirect and send it to the store login
+    get "/users/sign_in", to: redirect("/store/login")
+
+    root to: "dashboard#index"
   end
 end

@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
+  self.table_name = "public.clients"
   validates :subdomain, presence: true, uniqueness: true
 
   # Trigger schema creation when a Client is created
@@ -18,7 +19,7 @@ class Client < ApplicationRecord
 
     ActiveRecord::Schema.verbose = false
     load "#{Rails.root}/db/schema.rb"
-
+    debugger
     User.create!(
       email: "admin@#{subdomain}.com",
       password: "password123",

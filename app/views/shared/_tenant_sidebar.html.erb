@@ -1,0 +1,68 @@
+<!-- app/views/shared/_tenant_sidebar.html.erb -->
+<aside class="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col fixed left-0 top-0 bottom-0 z-50">
+  
+  <!-- Logo Section -->
+  <div class="h-20 flex items-center px-8 border-b border-gray-50">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white font-bold">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      </div>
+      <span class="text-2xl font-bold text-gray-800 tracking-tight"><%= current_tenant&.name || "Planti." %></span>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+    
+    <!-- Active Item (Dashboard) -->
+    <%= link_to dashboard_path, class: "flex items-center gap-3 px-4 py-3 text-green-700 bg-green-50 rounded-xl transition-colors group" do %>
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+      <span class="font-medium text-sm">Dashboard</span>
+    <% end %>
+
+    <!-- Inactive Items -->
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+      <span class="font-medium text-sm">My Orders</span>
+    </a>
+
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+      <span class="font-medium text-sm">Explore</span>
+    </a>
+
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+      <span class="font-medium text-sm">Featured Products</span>
+    </a>
+
+    <!-- Settings Section Header -->
+    <div class="pt-6 pb-2 px-4">
+      <p class="text-xs font-bold text-gray-900 uppercase tracking-wider">Settings</p>
+    </div>
+
+    <a href="#" class="flex items-center gap-3 px-4 py-3 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-xl transition-colors">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+      <span class="font-medium text-sm">Settings</span>
+    </a>
+  </nav>
+
+  <!-- Help Center Card -->
+  <div class="p-4 mt-auto">
+    <div class="bg-gradient-to-br from-green-200 to-green-300 rounded-2xl p-6 text-center relative overflow-hidden">
+      <!-- Decorative circle -->
+      <div class="absolute -top-6 -right-6 w-16 h-16 bg-white opacity-30 rounded-full"></div>
+      
+      <div class="relative z-10">
+        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center mx-auto mb-3 shadow-sm">
+          <span class="font-bold text-lg">?</span>
+        </div>
+        <h4 class="font-bold text-green-900 text-sm mb-1">Help Center</h4>
+        <p class="text-xs text-green-800 mb-4 leading-relaxed">Having trouble in Planti? Please contact us.</p>
+        <button class="w-full bg-white text-green-800 text-xs font-bold py-2.5 rounded-lg shadow-sm hover:shadow transition">
+          Go To Help Center
+        </button>
+      </div>
+    </div>
+  </div>
+</aside>
