@@ -72,9 +72,7 @@ class ClientsController < ApplicationController
 
     def ensure_platform_admin!
       unless current_user.platform_admin?
-        # If a normal user tries to access this, kick them out
-        sign_out current_user
-        redirect_to new_user_session_path, alert: "Access Denied. Platform Admins only."
+        redirect_to new_user_session_path, alert: "Access Denied"
       end
     end
 end
